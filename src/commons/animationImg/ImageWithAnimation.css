@@ -1,0 +1,29 @@
+/* ImageWithAnimation.css */
+img {
+    transition: opacity 0.1s ease;
+  }
+  
+.img-container {
+  position: relative;
+  width: 140px; 
+  height: 140px; 
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  overflow: hidden; 
+  border-radius: 50%;  
+  cursor: pointer;
+}
+
+.img-container:hover {
+  transform: rotateY(10deg);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: opacity 0.1s ease;
+  object-fit: cover; 
+  border-radius: 50%;
+}
