@@ -3,18 +3,17 @@ import {
   Paper,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Grid,
   useMediaQuery,
   TablePagination,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { routes } from "../../../router/routes";
 import { UsersResponse, GitHubUser } from "./model";
+import { TableHeader } from "./table.header";
+import { TableRows } from "./table.rows";
 
 export const TableComponent = (data: UsersResponse) => {
   const { users } = data;
@@ -41,52 +40,16 @@ export const TableComponent = (data: UsersResponse) => {
     <Grid container spacing={0} sx={{ flex: 1 }} item xs={14} md={10}>
       <TableContainer component={Paper}>
         <Table size="small" padding="normal">
-          <TableHead sx={{ backgroundColor: "#540097" }}>
-            <TableRow>
-              <TableCell sx={{ color: "#FFFFFF" }}>Avatar</TableCell>
-              {!isXsScreen && (
-                <TableCell sx={{ color: "#FFFFFF" }}>Login</TableCell>
-              )}
-              {!isXsScreen && (
-                <TableCell sx={{ color: "#FFFFFF" }}>Id</TableCell>
-              )}
-              <TableCell sx={{ color: "#FFFFFF" }}>Link</TableCell>
-            </TableRow>
-          </TableHead>
+          <TableHeader isXsScreen={isXsScreen} />
           <TableBody>
             {users
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((user: GitHubUser) => (
-                <TableRow
-                  key={user.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    sx={{ display: "flex", flexDirection: "column" }}
-                  >
-                    <img
-                      src={user.avatar_url}
-                      alt="Avatar"
-                      style={{ width: "80px", height: "80px" }}
-                    />
-                    {isXsScreen ? <>{user.login}</> : null}
-                  </TableCell>
-
-                  {!isXsScreen && (
-                    <TableCell align="left">{user.login}</TableCell>
-                  )}
-                  {!isXsScreen && <TableCell align="left">{user.id}</TableCell>}
-                  <TableCell align="left">
-                    <Link
-                      onClick={() => handleNavigation(user.id.toString())}
-                      to={routes.detail(user.id.toString())}
-                    >
-                      Click Here
-                    </Link>
-                  </TableCell>
-                </TableRow>
+                <TableRows
+                  user={user}
+                  isXsScreen={isXsScreen}
+                  handleNavigation={handleNavigation}
+                ></TableRows>
               ))}
           </TableBody>
         </Table>
